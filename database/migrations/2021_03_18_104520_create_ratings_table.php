@@ -19,7 +19,7 @@ class CreateRatingsTable extends Migration
             $table->unsignedBigInteger('rating');
             $table->timestamps();
 
-            $table->foreign('post_id')->references('id')->on('posts');
+            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');;
         });
     }
 

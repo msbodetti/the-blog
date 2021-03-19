@@ -105,13 +105,15 @@ class PostsController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Posts  $post
-     * @return \Illuminate\Http\RedirectResponse
+     * @return bool[]
      */
     public function destroy(Posts $post)
     {
         DB::table('posts')->where('id', $post->id)->delete();
+        DB::table('ratings')->where('post_id', $post->id)->delete();
 
-        return redirect()->route('dashboard')
-            ->with('message', 'Your post is deleted.');
+        return [
+            'success' => true
+        ];
     }
 }
