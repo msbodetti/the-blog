@@ -12,13 +12,16 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    @if(Auth::check())
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    @endif
                 </div>
             </div>
 
             <!-- Settings Dropdown -->
+            @if(Auth::check())
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
@@ -57,6 +60,21 @@
                     </svg>
                 </button>
             </div>
+            @else
+                @if (Route::has('login'))
+                    <div class="hidden px-6 py-4 sm:block">
+                        @auth
+                            <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 underline">Dashboard</a>
+                        @else
+                            <a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Log in</a>
+
+                            @if (Route::has('register'))
+                                <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a>
+                            @endif
+                        @endauth
+                    </div>
+                @endif
+            @endif
         </div>
     </div>
 
@@ -69,6 +87,7 @@
         </div>
 
         <!-- Responsive Settings Options -->
+        @if(Auth::check())
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="flex items-center px-4">
                 <div class="flex-shrink-0">
@@ -96,5 +115,6 @@
                 </form>
             </div>
         </div>
+        @endif
     </div>
 </nav>

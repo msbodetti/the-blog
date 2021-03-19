@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostsController;
+use App\Http\Controllers\RatingsController;
+use App\Models\Posts;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,11 +17,19 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome', [ 'posts' => Posts::all() ]);
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('dashboard', [ 'posts' => Posts::all() ]);
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
+
+Route::resource('posts', PostsController::class)->except([
+    'index'
+]);
+
+Route::resource('ratings', RatingsController::class)->only([
+    'store'
+]);
